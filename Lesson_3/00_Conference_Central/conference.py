@@ -15,6 +15,8 @@ __author__ = 'wesc+api@google.com (Wesley Chun)'
 
 from datetime import datetime
 
+from utils import getUserID
+
 import endpoints
 from protorpc import messages
 from protorpc import message_types
@@ -69,11 +71,12 @@ class ConferenceApi(remote.Service):
         # step 1. copy utils.py from additions folder to this folder
         #         and import getUserId from it
         # step 2. get user id by calling getUserId(user)
+        user_id = getUserId(user)
         # step 3. create a new key of kind Profile from the id
-
+        p_key = ndb.Key(profile, user_id)
         # TODO 3
         # get the entity from datastore by using get() on the key
-        profile = None
+        profile = ndb.get(p_key)
         if not profile:
             profile = Profile(
                 key = None, # TODO 1 step 4. replace with the key from step 3
